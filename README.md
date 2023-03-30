@@ -22,9 +22,12 @@ GitHub client e secret podem ser adquiridos
 ### Database
 
 Se estiver usando o Docker, você pode executar a partir deste diretório para
-criar um banco de dados mariadb:
+criar um banco de dados postgres:
 
 ```sh
+docker-compose up
+```
+```
 docker-compose start
 ```
 
@@ -36,4 +39,164 @@ Inicie o projeto (isso instalará as dependências na primeira execução):
 deno task start
 ```
 
-Isso observará (whatch) o diretório do projeto e reiniciará conforme necessário.
+Isso observará (watch) o diretório do projeto e reiniciará conforme necessário.
+
+
+## DOCKER
+
+Buscar Imagens
+```
+docker search postgres
+```
+
+Baixar Imagem
+```
+docker pull postgres
+```
+
+Listar Imagens
+```
+docker images
+```
+
+Criar o Contêiner, mapear a Porta e o Armazenamento (Volume Docker)
+```
+docker run -p 5432:5432 -v /tmp/database:/var/lib/postgresql/data -e POSTGRES_PASSWORD=admin -d postgres
+```
+
+Listar Contêiners
+```
+dockers ps -a
+```
+
+Listar somente Contêiners em execução
+```
+dockers ps
+```
+
+Encontrar o endereço IP que foi atribuído ao Contêiner
+```
+docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' <nome-container>
+```
+
+Acessar o Contêiner
+```
+docker exec -it <nome-container> bash
+```
+
+Parar o Contêiner
+```
+docker stop <nome-container>
+```
+
+Iniciar o Contêiner
+```
+docker start <nome-container>
+```
+
+Reiniciar o Contêiner
+```
+docker restart <nome-container>
+```
+
+Remover uma ou várias Imagens
+```
+docker rmi <id-imagem> <id-da-imagem> ...
+```
+
+Remover todas Imagens
+```
+docker rmi $(docker images -q)
+```
+
+Parar todos Contêiners em execução
+```
+docker stop $(docker ps -a -q)
+```
+
+Remover todos Contêiners parados
+```
+docker rm $(docker ps -a -q)
+```
+
+## POSTGRES
+
+Conectar Database		
+```
+psql -d <db-name> -U <username> -W
+```
+
+Conectar Database Remoto
+```
+psql -h <db-address> -d <db-name> -U <username> -W
+```
+
+Conectar utilizando SSL
+```
+psql "sslmode=require host=<db-address> dbname=<db-name> user=<username>"
+```
+
+Listar Databases
+```
+\l
+```
+
+Mudar de Database
+```
+\c <db-name>
+```
+
+Listar	Tabelas
+```
+\dt
+```
+
+Descrever tabela
+```
+\d <table-name>
+```
+
+Descrever tabela detalhada
+```
+\d+ <table-name>
+```
+
+Listar todos Schemas
+```
+\dn
+```
+
+Listar usuários e suas funções (Roles)
+```
+\du
+```
+
+Listar um usuários específico
+```
+\du <username>
+```
+
+Listar todas Functions
+```
+\df
+```
+
+Listar todas Views
+```
+\dv
+```
+
+Salvar uma consulta em um arquivo
+```
+\o <file-name>
+```
+
+Executar comandos a partir de um arquivo
+```
+\i <file-name>
+```
+
+Sair do PSQL
+```
+\q
+```
