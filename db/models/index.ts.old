@@ -1,0 +1,21 @@
+// import { Relationships } from "denodb/mod.ts";
+// import User from "@/models/User.ts";
+// import SocialProfile from "@/models/SocialProfile.ts";
+
+// const models = [
+//   User,
+//   SocialProfile,
+// ];
+
+// // TODO: evitar que as FK sejam criadas a cada execução
+// Relationships.belongsTo(
+//   SocialProfile,
+//   User,
+//   { foreignKey: "user_id" },
+// );
+
+// export default models;
+
+// // const BusinessOwner = Relationships.manyToMany(Business, Owner);
+
+// // db.link([BusinessOwner, Business, Owner]);

@@ -1,0 +1,14 @@
+{
+  "tasks": {
+    "start": "deno run -A --watch=static/,routes/ dev.ts",
+    "flint": "deno fmt && deno lint",
+    "migrate": "deno run --allow-read --allow-env --allow-net ./db/migrate.ts",
+    "migrate:up": "deno task migrate --up",
+    "migrate:down": "deno task migrate --down"
+  },
+  "importMap": "./import_map.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "jsxImportSource": "preact"
+  }
+}

@@ -1,0 +1,22 @@
+// import { HandlerContext } from "$fresh/server.ts";
+
+// import User from "@/models/User.ts";
+// import SocialProfile from "@/models/SocialProfile.ts";
+
+// export const handler = async (
+//   _req: Request,
+//   _ctx: HandlerContext,
+// ): Promise<Response> => {
+//   const users = await User.all();
+//   const socialProfiles = await SocialProfile
+//     .where("user_id", "in", users.map((user) => user.id))
+//     .all();
+//   const socialProfilesByUserId = socialProfiles.reduce((byId))
+//     byId.set(profiles.user_id, profile);
+//     return byId;
+// }, new Map<string, SocialProfile>());
+// users.forEach((user) => {
+//   user.social_profile = socialProfilesByUserId.get(user.id)
+// });
+//   return Response.json(users);
+// };

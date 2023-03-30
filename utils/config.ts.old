@@ -1,0 +1,41 @@
+// import "std/dotenv/load.ts";
+// // import Config from "../schemas/Config.ts";
+// import { Config, ConfigSchema } from "@/schemas/Config.ts";
+// import EnvNames from "@/constants/EnvVars.ts";
+// // console.log(Deno.env)
+
+// const envConfig: Config = {
+//   // TODO: atualizar para usar porta parametrizada
+//   base_url: Deno.env.get(EnvNames.BASE_URL) || "http://localhost:8000",
+//   environment: Deno.env.get(EnvNames.DENO_ENV) || "",
+//   db: {
+//     database: Deno.env.get(EnvNames.DB_NAME) || "",
+//     host: Deno.env.get(EnvNames.DB_HOST) || "",
+//     username: Deno.env.get(EnvNames.DB_USERNAME) || "",
+//     password: Deno.env.get(EnvNames.DB_PASSWORD) || "",
+//     port: Number(Deno.env.get(EnvNames.DB_PORT)) || 3306,
+//   },
+//   // TODO: validations...
+//   oauth: {
+//     github: {
+//       client_id: Deno.env.get(EnvNames.GITHUB_CLIENT_ID) || "",
+//       client_secret: Deno.env.get(EnvNames.GITHUB_CLIENT_SECRET) || "",
+//     },
+//   },
+// };
+
+// // console.log(config)
+
+// // Object.entries(config.db).forEach(([name, value]) => {
+// //   if (!value) {
+// //     // console.log(config);
+// //     throw new Error(
+// //       "Faltando o valor de configuração do banco de dados: " + name,
+// //     );
+// //   }
+// // });
+
+// // TODO: limpar o erro que é logado
+// const config = ConfigSchema.parse(envConfig);
+
+// export default config;
