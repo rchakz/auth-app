@@ -17,6 +17,8 @@
     "postgres": "https://deno.land/x/postgres@v0.17.0/mod.ts",
     "kysely": "https://cdn.jsdelivr.net/npm/kysely/dist/esm/index.js",
     "deno_grant": "https://deno.land/x/deno_grant@v0.3.0/mod.ts",
-    "deno_grant/": "https://deno.land/x/deno_grant@v0.3.0/src/"
+    "deno_grant/": "https://deno.land/x/deno_grant@v0.3.0/src/",
+    "request_cookie_store": "https://deno.land/x/request_cookie_store@v0.6.0-pre.3/index.ts",
+    "signed_cookie_store": "https://deno.land/x/signed_cookie_store@v0.3.0-pre.8/index.ts"
   }
 }

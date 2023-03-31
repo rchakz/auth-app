@@ -1,37 +1,47 @@
 import { Handlers } from "$fresh/server.ts";
 import { Providers } from "deno_grant";
-import GithubProfile from "deno_grant/interfaces/profiles/GithubProfile.ts"
+import GithubProfile from "deno_grant/interfaces/profiles/GithubProfile.ts";
 
 import config from "@config";
 import denoGrant from "@denoGrant";
 import db from "@db";
 import ProviderType from "@/constants/ProviderType.ts";
+// import { Cookie, setCookie } from "std/http/cookie.ts";
+import { RequestCookieStore } from "request_cookie_store";
+import { SignedCookieStore } from "signed_cookie_store";
 
 function getGithubAvatar(profile: GithubProfile) {
   return `https://github.com/${profile.login}.png`;
 }
 
 // TODO: refatorar p/ quando houver mais de um provider
-async function upsertGithubProfile(accessToken: string) {
+async function upsertGithubProfile(request: Request, accessToken: string) {
   const profile = await denoGrant.getProfile(Providers.github, accessToken);
   const socialProfile = await db
     .selectFrom("social_profile")
-    .select("provider_id")
+    .select(["provider_id", "user_id"])
     .where("provider_id", "=", profile.id)
     .executeTakeFirst();
+  let id = "";
+
+  console.log("socialProfile:", socialProfile)
 
   if (socialProfile) {
-    console.log("ATUALIZANDO social_profile EXISTENTE", profile)
-    await db.updateTable("social_profile")
+    // console.log("ATUALIZANDO social_profile EXISTENTE", profile)
+    id = socialProfile.user_id.toString();
+    await db
+      .updateTable("social_profile")
       .set({
         username: profile.login,
-        avatar_url: getGithubAvatar(profile)
+        avatar_url: getGithubAvatar(profile),
+        // updated_at: new Date()
       })
       .where("provider_id", "=", profile.id)
       .execute();
   } else {
-    console.log("ATUALIZANDO user EXISTENTE")
+    // console.log("INSERINDO user")
     const result = await db.transaction().execute(async (trx) => {
+      // throw new Error("PLAU");
       const user = await trx
         .insertInto("user")
         .values({
@@ -48,29 +58,121 @@ async function upsertGithubProfile(accessToken: string) {
             provider_id: profile.id,
             username: profile.login,
             avatar_url: getGithubAvatar(profile),
-            user_id: user.id
+            user_id: user.id,
           })
           .returningAll()
           .executeTakeFirst();
         if (socialProfile) {
           return {
             user,
-            socialProfile
-          }
+            socialProfile,
+          };
         }
         return null;
-      } 
+      }
       return null;
     });
     // if (result?.socialProfile && result.user) {
     if (result) {
-      console.log("!!! user INSERIDO", result)
-      // TODO: emitir um cookie assinado
+      // console.log("USER INSERIDO!!!", result);
+      id = result.user.id.toString();
     }
+    // else {
+    //   console.log("ERRO, NENHUM DADO INSERIDO/ATUALIZADO!!!");
+    // }
   }
-  // TODO: inserir/atualizar no BD
-  
-  return Response.json(profile);
+
+  // const headers = new Headers();
+  // const cookie: Cookie = { name: "id", value: id };
+  // setCookie(headers, cookie);
+
+  // const cookieHeader = headers.get("set-cookie");
+  // console.log(cookieHeader);
+
+  const resp = new Response("", {
+    status: 302,
+    headers: { Location: config.base_url },
+  });
+  console.log("id:", id)
+  if (id) {
+    const requestStore = new RequestCookieStore(request);
+
+    const secret = "keyboard_cat";
+    const keyPromise = SignedCookieStore.deriveCryptoKey({ secret });
+
+    const cookieStore = new SignedCookieStore(requestStore, await keyPromise, {
+      keyring: [await keyPromise],
+    });
+
+    await cookieStore.set({
+      name: "id",
+      value: id,
+      path: "/",
+      httpOnly: true,
+      sameSite: "strict",
+      
+      // TODO: conseguir setar os valores secure e maxAge. trocar a lib?
+      // TODO: talvez combinar com setCookie
+      // TODO: talvez trocar a lib?
+      
+      // deno-lint-ignore ban-ts-comment
+      // @ts-ignore
+      secure: config.environment === "production",
+      maxAge: 60 * 60 * 24
+    });
+
+    // const cookieHeader = requestStore.headers.find(([name]) => name === "cookie") || ["", ""];
+
+    // console.log("all headers:", requestStore.headers);
+
+    // console.log(cookieHeader);
+
+    requestStore.headers.forEach(([key, value]) => {
+      if (key === "Set-Cookie"){
+        resp.headers.append(key, value);
+      }
+    });
+
+    // resp.headers.append("Set-Cookie", cookieHeader[1]);
+    
+    
+   
+    // await cookieStore.set("id", id);
+    // assert(!emptyStore.headers.map(x => x[1]).includes('foo.sig=Sd_7Nz01uxBspv_y6Lqs8gLXXYEe8iFEN8fNouVNLzI'));
+
+    // const signedId = await cookieStore.get("id")
+
+    // await cookieStore.set({
+    //   // path: "/",
+    //   // httpOnly: true,
+    //   // sameSite: "strict",
+    //   // secure: config.environment === "production",
+    //   name: "id",
+    //   // maxAge: 60 * 60 * 24,
+    //   value: id,
+    // });
+
+    const signedCookie = await cookieStore.get("id");
+    
+    console.log(signedCookie);
+
+    // setCookie(resp.headers, {
+    //   // ...signedCookie,
+    //   //secure: config.environment === "production",
+    //   //maxAge: 60 * 60 * 24,
+
+    //   name: "id",
+    //   value: signedCookie?.value || "",
+    //   path: "/",
+    //   httpOnly: true,
+    //   sameSite: "Strict",
+    //   secure: config.environment === "production",
+    //   maxAge: 60 * 60 * 24
+    // });
+  }
+  return resp;
+  // return Response.json(profile);
+  // return Response.json(config.base_url);
 }
 
 export const handler: Handlers = {
@@ -80,7 +182,7 @@ export const handler: Handlers = {
       case Providers.github: {
         const tokens = await denoGrant.getToken(Providers.github, request.url);
         if (tokens) {
-          return upsertGithubProfile(tokens.accessToken);
+          return upsertGithubProfile(request, tokens.accessToken);
         }
       }
     }

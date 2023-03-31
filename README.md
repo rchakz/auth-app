@@ -158,6 +158,10 @@ Remover todos Contêiners parados
 docker rm $(docker ps -a -q)
 ```
 
+## ADMINER
+
+[http://localhost:8080/](http://localhost:8080/)
+
 ## POSTGRES
 
 #### Comandos Postgres

@@ -29,6 +29,7 @@ class Db {
 
   static #initDb() {
     return new Kysely<DbSchema>({
+      // log: ["query", "error"],
       dialect: {
         createAdapter() {
           return new PostgresAdapter();

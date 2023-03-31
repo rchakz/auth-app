@@ -3,6 +3,11 @@
 // import User from "@/db/models/UserTable.ts";
 // import Users from "@/islands/Users.tsx";
 
+
+
+
+// TODO: criar um middleware de análise de cookie
+
 export default function Home() {
   return (
     <div class="w-screen h-screen overflow-hidden bg-[#1C1C1C] text-white">
