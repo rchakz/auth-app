@@ -9,8 +9,8 @@ import {
 
 import config from "@config";
 
-import UserTable from "./models/UserTable.ts";
-import SocialProfileTable from "./models/SocialProfileTable.ts";
+import UserTable from "./tables/UserTable.ts";
+import SocialProfileTable from "./tables/SocialProfileTable.ts";
 
 export interface DbSchema {
   user: UserTable;

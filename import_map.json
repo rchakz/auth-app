@@ -16,6 +16,7 @@
     "zod": "https://deno.land/x/zod@v3.21.4/mod.ts",
     "postgres": "https://deno.land/x/postgres@v0.17.0/mod.ts",
     "kysely": "https://cdn.jsdelivr.net/npm/kysely/dist/esm/index.js",
-    "deno_grant": "https://deno.land/x/deno_grant@v0.3.0/mod.ts"
+    "deno_grant": "https://deno.land/x/deno_grant@v0.3.0/mod.ts",
+    "deno_grant/": "https://deno.land/x/deno_grant@v0.3.0/src/"
   }
 }

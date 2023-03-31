@@ -1,10 +1,12 @@
 # Projeto Fresh Deno
 
-Inspirado por [CodingGarden - Fresh Spots](https://github.com/CodingGarden/fresh-spots/)
+Inspirado por
+[CodingGarden - Fresh Spots](https://github.com/CodingGarden/fresh-spots/)
 
 ### Instale o Deno
 
-Este projeto usa Deno. Instale para o seu sistema operacional seguindo as instruções [aqui](https://deno.land/#installation)
+Este projeto usa Deno. Instale para o seu sistema operacional seguindo as
+instruções [aqui](https://deno.land/#installation)
 
 ### Variáveis de ambiente
 
@@ -17,7 +19,8 @@ cp .env.sample .env
 Atualize os valores de acordo (se estiver usando o Docker, os valores podem
 permanecer como estão).
 
-O códigos client e secret do GitHub podem ser adquiridos [aqui](https://github.com/settings/applications/).
+O códigos client e secret do GitHub podem ser adquiridos
+[aqui](https://github.com/settings/applications/).
 
 ### Banco de Dados
 
@@ -60,7 +63,8 @@ deno task migrate:down
 
 ## DOCKER
 
-Instale o Docker para o seu sistema operacional seguindo as instruções [aqui](https://www.docker.com/get-started/)
+Instale o Docker para o seu sistema operacional seguindo as instruções
+[aqui](https://www.docker.com/get-started/)
 
 #### Comandos Docker
 

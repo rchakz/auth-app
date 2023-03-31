@@ -1,4 +1,4 @@
-import { Generated, Selectable } from "kysely";
+import { Generated } from "kysely";
 import BaseTable from "./BaseTable.ts";
 import ProviderType from "@/constants/ProviderType.ts";
 
@@ -8,6 +8,7 @@ export default interface SocialProfileTable extends BaseTable {
   provider_id: string;
   username: string;
   avatar_url: string;
+  user_id: number;
 }
 
-export type Users = Selectable<SocialProfileTable>;
+// export type Users = Selectable<SocialProfileTable>;

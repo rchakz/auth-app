@@ -1,14 +1,16 @@
-import "std/dotenv/load.ts";
+// import "std/dotenv/load.ts";
+import { load } from "std/dotenv/mod.ts";
 // import Config from "../schemas/Config.ts";
 import { Config, ConfigSchema } from "@/schemas/Config.ts";
 import EnvNames from "@/constants/EnvVars.ts";
 // console.log(Deno.env)
 
-// if (Deno.env.get(EnvNames.DENO_ENV) !== "production") {
-//   await mod.config({
-//     export: true,
-//   });
-// }
+// Necessário para o deploy
+if (Deno.env.get(EnvNames.DENO_ENV) !== "production") {
+  await load({
+    export: true,
+  });
+}
 
 const envConfig: Config = {
   base_url: Deno.env.get(EnvNames.BASE_URL) || "http://localhost:8000",

@@ -1,13 +1,75 @@
 import { Handlers } from "$fresh/server.ts";
 import { Providers } from "deno_grant";
+import GithubProfile from "deno_grant/interfaces/profiles/GithubProfile.ts"
 
 import config from "@config";
 import denoGrant from "@denoGrant";
+import db from "@db";
+import ProviderType from "@/constants/ProviderType.ts";
+
+function getGithubAvatar(profile: GithubProfile) {
+  return `https://github.com/${profile.login}.png`;
+}
 
 // TODO: refatorar p/ quando houver mais de um provider
 async function upsertGithubProfile(accessToken: string) {
   const profile = await denoGrant.getProfile(Providers.github, accessToken);
-  // TODO: inserir/atualizar profile e user no DB
+  const socialProfile = await db
+    .selectFrom("social_profile")
+    .select("provider_id")
+    .where("provider_id", "=", profile.id)
+    .executeTakeFirst();
+
+  if (socialProfile) {
+    console.log("ATUALIZANDO social_profile EXISTENTE", profile)
+    await db.updateTable("social_profile")
+      .set({
+        username: profile.login,
+        avatar_url: getGithubAvatar(profile)
+      })
+      .where("provider_id", "=", profile.id)
+      .execute();
+  } else {
+    console.log("ATUALIZANDO user EXISTENTE")
+    const result = await db.transaction().execute(async (trx) => {
+      const user = await trx
+        .insertInto("user")
+        .values({
+          display_name: profile.login,
+        })
+        .returningAll()
+        .executeTakeFirst();
+
+      if (user) {
+        const socialProfile = await trx
+          .insertInto("social_profile")
+          .values({
+            provider_type: ProviderType.github,
+            provider_id: profile.id,
+            username: profile.login,
+            avatar_url: getGithubAvatar(profile),
+            user_id: user.id
+          })
+          .returningAll()
+          .executeTakeFirst();
+        if (socialProfile) {
+          return {
+            user,
+            socialProfile
+          }
+        }
+        return null;
+      } 
+      return null;
+    });
+    // if (result?.socialProfile && result.user) {
+    if (result) {
+      console.log("!!! user INSERIDO", result)
+      // TODO: emitir um cookie assinado
+    }
+  }
+  // TODO: inserir/atualizar no BD
+  
   return Response.json(profile);
 }
 

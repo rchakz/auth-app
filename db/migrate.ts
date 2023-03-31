@@ -16,10 +16,10 @@ function logMigrationResults(
   results?.forEach((res) => {
     if (res.status === "Success") {
       console.log(
-        `[Migrations] ✅ ${res.migrationName} was executed successfully`,
+        `[Migrations] ✅ ${res.migrationName} foi executado com sucesso`,
       );
     } else {
-      console.log(`[Migrations] ✅ ${res.migrationName} failed to execute`);
+      console.log(`[Migrations] ✅ ${res.migrationName} falhou ao executar`);
     }
   });
 
@@ -34,11 +34,11 @@ const flags = parse(Deno.args, {
 });
 
 if (!flags.up && !flags.down) {
-  throw new Error("up or down flag missing");
+  throw new Error("flag :up ou :down faltando");
 }
 
 if (flags.up && flags.down) {
-  throw new Error("Can only migrate up or down... not both");
+  throw new Error("Só é possível migrate:up ou migrate:down");
 }
 
 if (flags.up) {
