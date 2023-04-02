@@ -9,7 +9,7 @@
 //   TransactionSettings,
 // } from "kysely";
 
-import { kysely, postgres } from "@/deps.ts"
+import { kysely, postgres } from "@/deps.ts";
 
 type QueryArguments = unknown[] | Record<string, unknown>;
 
@@ -44,11 +44,15 @@ export default class PostgresDriver implements kysely.Driver {
     await connection.executeQuery(kysely.CompiledQuery.raw("begin"));
   }
 
-  async commitTransaction(connection: kysely.DatabaseConnection): Promise<void> {
+  async commitTransaction(
+    connection: kysely.DatabaseConnection,
+  ): Promise<void> {
     await connection.executeQuery(kysely.CompiledQuery.raw("commit"));
   }
 
-  async rollbackTransaction(connection: kysely.DatabaseConnection): Promise<void> {
+  async rollbackTransaction(
+    connection: kysely.DatabaseConnection,
+  ): Promise<void> {
     await connection.executeQuery(kysely.CompiledQuery.raw("rollback"));
   }
 
@@ -71,7 +75,9 @@ class PgConnection implements DatabaseConnection {
     this.#db = c;
   }
 
-  async executeQuery<R>(compiledQuery: kysely.CompiledQuery): Promise<kysely.QueryResult<R>> {
+  async executeQuery<R>(
+    compiledQuery: kysely.CompiledQuery,
+  ): Promise<kysely.QueryResult<R>> {
     const { sql, parameters } = compiledQuery;
 
     // console.log(sql);

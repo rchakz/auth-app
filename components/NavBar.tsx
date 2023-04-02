@@ -1,7 +1,11 @@
-const NavBar = () => {
+import PropsWithUser from "@/schemas/PropsWithUser.ts";
+import { FunctionalComponent } from "preact";
+import UserAvatarButton from "@/islands/UserAvatarButton.tsx";
+
+const NavBar: FunctionalComponent<PropsWithUser> = ({ user }) => {
   {/* TODO:  config twind com temas de cores */}
   return (
-    <nav class="bg-[#595959] border-gray-200 px2 sm:px-4 py-2.5">
+    <nav class="bg-[#595959] border-gray-200 px2 sm:px-4 py-2.5 flex justify-between">
       <div class="container flex flex-wrap justify-between items-center mx-auto">
         <a href="/" class="flex items-center">
           <svg
@@ -33,6 +37,7 @@ const NavBar = () => {
           </span>
         </a>
       </div>
+      {user && <UserAvatarButton user={user} />}
     </nav>
   );
 };

@@ -16,7 +16,7 @@ export const handler: Handlers = {
     // TODO: mostrar mensagem de erro ao invés de um redirect instantaneo
     // return Response.redirect(config.base_url);
     const redirectUrl =
-      `${config.base_url}/not-found?message=Provedor "${providerString}" desconhecido`;
+      `${config.base_url}/not-found?message=Provedor "${providerString}" desconhecido ou não implementado.`;
     return Response.redirect(redirectUrl);
   },
 };

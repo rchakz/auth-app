@@ -1,8 +1,8 @@
 import { Handlers } from "$fresh/server.ts";
 import { Providers } from "deno_grant";
 import GithubProfile from "deno_grant/interfaces/profiles/GithubProfile.ts";
-import { request_cookie_store, signed_cookie_store } from "@/deps.ts"
-
+// import { request_cookie_store, signed_cookie_store } from "@/deps.ts";
+import { squishy_cookies } from "@/deps.ts";
 import config from "@config";
 import denoGrant from "@denoGrant";
 import db from "@db";
@@ -90,86 +90,115 @@ async function upsertGithubProfile(request: Request, accessToken: string) {
   // const cookieHeader = headers.get("set-cookie");
   // console.log(cookieHeader);
 
-  const resp = new Response("", {
-    status: 302,
-    headers: { Location: config.base_url },
-  });
-  console.log("id:", id);
+  // const resp = new Response("", {
+  //   status: 302,
+  //   headers: { Location: config.base_url },
+  // });
+
+  // console.log("id:", id);
+
   if (id) {
-    const requestStore = new request_cookie_store.RequestCookieStore(request);
-
+    // TODO: mudar secret para o .env
     const secret = "keyboard_cat";
-    const keyPromise = signed_cookie_store.SignedCookieStore.deriveCryptoKey({ secret });
+    const { cookie } = await squishy_cookies.createSignedCookie(
+      "id",
+      id,
+      secret,
+      {
+        path: "/",
+        httpOnly: true,
+        // TODO: pq ñ é poossível setar o cookie após o redirect?
+        // sameSite: "Strict",
+        secure: config.environment === "production",
+        maxAge: 60 * 60 * 24,
+      },
+    );
 
-    const cookieStore = new signed_cookie_store.SignedCookieStore(requestStore, await keyPromise, {
-      keyring: [await keyPromise],
+    return new Response("", {
+      status: 302,
+      headers: {
+        Location: config.base_url,
+        // ...headers
+        "set-cookie": cookie,
+      },
     });
 
-    await cookieStore.set({
-      name: "id",
-      value: id,
-      path: "/",
-      httpOnly: true,
-      sameSite: "strict",
+    // const requestStore = new request_cookie_store.RequestCookieStore(request);
 
-      // TODO: conseguir setar os valores secure e maxAge. trocar a lib?
-      // TODO: talvez combinar com setCookie
-      // TODO: talvez trocar a lib?
+    // const secret = "keyboard_cat";
+    // const keyPromise = signed_cookie_store.SignedCookieStore.deriveCryptoKey({ secret });
 
-      // deno-lint-ignore ban-ts-comment
-      // @ts-ignore
-      secure: config.environment === "production",
-      maxAge: 60 * 60 * 24,
-    });
-
-    // const cookieHeader = requestStore.headers.find(([name]) => name === "cookie") || ["", ""];
-
-    // console.log("all headers:", requestStore.headers);
-
-    // console.log(cookieHeader);
-
-    requestStore.headers.forEach(([key, value]) => {
-      if (key === "Set-Cookie") {
-        resp.headers.append(key, value);
-      }
-    });
-
-    // resp.headers.append("Set-Cookie", cookieHeader[1]);
-
-    // await cookieStore.set("id", id);
-    // assert(!emptyStore.headers.map(x => x[1]).includes('foo.sig=Sd_7Nz01uxBspv_y6Lqs8gLXXYEe8iFEN8fNouVNLzI'));
-
-    // const signedId = await cookieStore.get("id")
+    // const cookieStore = new signed_cookie_store.SignedCookieStore(requestStore, await keyPromise, {
+    //   keyring: [await keyPromise],
+    // });
 
     // await cookieStore.set({
-    //   // path: "/",
-    //   // httpOnly: true,
-    //   // sameSite: "strict",
-    //   // secure: config.environment === "production",
     //   name: "id",
-    //   // maxAge: 60 * 60 * 24,
     //   value: id,
-    // });
-
-    const signedCookie = await cookieStore.get("id");
-
-    console.log(signedCookie);
-
-    // setCookie(resp.headers, {
-    //   // ...signedCookie,
-    //   //secure: config.environment === "production",
-    //   //maxAge: 60 * 60 * 24,
-
-    //   name: "id",
-    //   value: signedCookie?.value || "",
     //   path: "/",
     //   httpOnly: true,
-    //   sameSite: "Strict",
+    //   sameSite: "strict",
+
+    //   // TODO: conseguir setar os valores secure e maxAge. trocar a lib?
+    //   // TODO: talvez combinar com setCookie
+    //   // TODO: talvez trocar a lib?
+
+    //   // deno-lint-ignore ban-ts-comment
+    //   // @ts-ignore
     //   secure: config.environment === "production",
-    //   maxAge: 60 * 60 * 24
+    //   maxAge: 60 * 60 * 24,
     // });
+
+    // // const cookieHeader = requestStore.headers.find(([name]) => name === "cookie") || ["", ""];
+
+    // // console.log("all headers:", requestStore.headers);
+
+    // // console.log(cookieHeader);
+
+    // console.log(requestStore.headers);
+
+    // requestStore.headers.forEach(([key, value]) => {
+    //   if (key === "Set-Cookie") {
+    //     resp.headers.append(key, value);
+    //   }
+    // });
+
+    // // resp.headers.append("Set-Cookie", cookieHeader[1]);
+
+    // // await cookieStore.set("id", id);
+    // // assert(!emptyStore.headers.map(x => x[1]).includes('foo.sig=Sd_7Nz01uxBspv_y6Lqs8gLXXYEe8iFEN8fNouVNLzI'));
+
+    // // const signedId = await cookieStore.get("id")
+
+    // // await cookieStore.set({
+    // //   // path: "/",
+    // //   // httpOnly: true,
+    // //   // sameSite: "strict",
+    // //   // secure: config.environment === "production",
+    // //   name: "id",
+    // //   // maxAge: 60 * 60 * 24,
+    // //   value: id,
+    // // });
+
+    // const signedCookie = await cookieStore.get("id");
+
+    // console.log(signedCookie);
+
+    // // setCookie(resp.headers, {
+    // //   // ...signedCookie,
+    // //   //secure: config.environment === "production",
+    // //   //maxAge: 60 * 60 * 24,
+
+    // //   name: "id",
+    // //   value: signedCookie?.value || "",
+    // //   path: "/",
+    // //   httpOnly: true,
+    // //   sameSite: "Strict",
+    // //   secure: config.environment === "production",
+    // //   maxAge: 60 * 60 * 24
+    // // });
   }
-  return resp;
+  return Response.redirect(config.base_url);
   // return Response.json(profile);
   // return Response.json(config.base_url);
 }

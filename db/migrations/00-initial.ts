@@ -1,5 +1,5 @@
 // import { sql } from "kysely";
-import { kysely } from "@/deps.ts"
+import { kysely } from "@/deps.ts";
 import { createTableWithDefaults, FreshDb } from "../migrate-utils.ts";
 import ProviderType from "@/constants/ProviderType.ts";
 
@@ -14,7 +14,11 @@ export async function up(db: FreshDb): Promise<void> {
     .execute();
 
   await createTableWithDefaults(db.schema, "social_profile")
-    .addColumn("provider_type", kysely.sql`provider_type`, (col) => col.notNull())
+    .addColumn(
+      "provider_type",
+      kysely.sql`provider_type`,
+      (col) => col.notNull(),
+    )
     .addColumn("provider_id", "varchar(50)", (col) => col.notNull())
     .addColumn("username", "varchar(255)", (col) => col.notNull())
     .addColumn("avatar_url", "varchar(2083)")

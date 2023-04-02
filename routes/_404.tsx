@@ -11,10 +11,13 @@ export default function NotFoundPage({ url }: UnknownPageProps) {
     // <Alert message={message || `404 not found: ${url.pathname}`} />
     // </Layout>
     <Layout>
-      <div class="m-4 p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+      <div
+        class="m-4 p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+        role="alert"
+      >
         <span class="font-medium">
           {/* {message ? <p>{message}</p> : <p>404 not found: {url.pathname}</p>} */}
-          {message || `404 não encontrado: ${url.pathname}`}
+          {message || `404 não encontrado ou não implementado: ${url.pathname}`}
         </span>
       </div>
     </Layout>

@@ -1,5 +1,5 @@
 import PostgresDriver from "./PostgresDriver.ts";
-import { kysely } from "@/deps.ts"
+import { kysely } from "@/deps.ts";
 
 // import {
 //   Kysely,
@@ -12,6 +12,14 @@ import config from "@config";
 
 import UserTable from "./tables/UserTable.ts";
 import SocialProfileTable from "./tables/SocialProfileTable.ts";
+
+export function jsonb_agg<DB, TB extends keyof DB, O = {}>(
+  qb: kysely.SelectQueryBuilder<DB, TB, O>,
+) {
+  return kysely.sql<
+    O[]
+  >`coalesce((select jsonb_agg(x) from (${qb}) x), '[]'::jsonb)`;
+}
 
 export interface DbSchema {
   user: UserTable;
@@ -30,7 +38,7 @@ class Db {
 
   static #initDb() {
     return new kysely.Kysely<DbSchema>({
-      // log: ["query", "error"],
+      log: ["query", "error"],
       dialect: {
         createAdapter() {
           return new kysely.PostgresAdapter();
