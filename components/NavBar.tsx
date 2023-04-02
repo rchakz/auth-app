@@ -37,7 +37,7 @@ const NavBar: FunctionalComponent<PropsWithUser> = ({ user }) => {
           </span>
         </a>
       </div>
-      {user && <UserAvatarButton user={user} />}
+      {<UserAvatarButton user={user} />}
     </nav>
   );
 };

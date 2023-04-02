@@ -18,6 +18,9 @@ const UserAvatarButton: FunctionComponent<PropsWithUser> = ({ user }) => {
     const focusListener = () => {
       setShowDropdown(true);
     };
+    // const onclickListener = () => {
+    //   setShowDropdown((current) => !current);
+    // };
     if (buttonRef.current) {
       (buttonRef.current as HTMLDivElement).addEventListener(
         "focusout",
@@ -27,6 +30,10 @@ const UserAvatarButton: FunctionComponent<PropsWithUser> = ({ user }) => {
         "focusin",
         focusListener,
       );
+      // (buttonRef.current as HTMLDivElement).addEventListener(
+      //   "click",
+      //   onclickListener,
+      // );
     }
     (() => {
       if (buttonRef.current) {
@@ -42,16 +49,21 @@ const UserAvatarButton: FunctionComponent<PropsWithUser> = ({ user }) => {
     });
   }, []);
 
-  if (!user) return null;
+  // if (!user) return null;
 
-  //   if (!user)
-  //     return (
-  //       <div class="relative">
-  //         <a class="btn btn-info" href="/auth/discord">
-  //           Login with Discord
-  //         </a>
-  //       </div>
-  //     );
+  if (!user)
+    return (
+      <div class="relative" >
+        <a class="btn btn-info" href="/auth/github">
+        <img
+            src="/github.svg"
+            class="w-6 h-6"
+            alt="Login com GitHub"
+          />
+          Login
+        </a>
+      </div>
+    );
 
   const socialProfile = getSocialProfile(user);
 
@@ -85,8 +97,7 @@ const UserAvatarButton: FunctionComponent<PropsWithUser> = ({ user }) => {
         </div>
         <svg
           class={`ml-2 w-4 h-4 transition transition-transform ${
-            showDropdown ? "rotate-180" : ""
-          }`}
+            showDropdown ? "rotate-180" : ""}`}
           aria-hidden="true"
           fill="none"
           stroke="currentColor"
@@ -113,7 +124,14 @@ const UserAvatarButton: FunctionComponent<PropsWithUser> = ({ user }) => {
           aria-labelledby="dropdownDefault"
         >
           <li>
-            <a href="/logout" class="block py-2 px-4">
+            <a 
+              href="/logout" 
+              class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+              // onClick={(e) => {
+              //   e.preventDefault();
+              //   e.stopPropagation();
+              // }}
+              >
               Logout
             </a>
           </li>

@@ -12,6 +12,7 @@ import * as $5 from "./routes/api/users.ts";
 import * as $6 from "./routes/auth/[provider]/callback.tsx";
 import * as $7 from "./routes/auth/[provider]/index.tsx";
 import * as $8 from "./routes/index.tsx";
+import * as $9 from "./routes/logout.ts";
 import * as $$0 from "./islands/Counter.tsx";
 import * as $$1 from "./islands/UserAvatarButton.tsx";
 import * as $$2 from "./islands/Users.tsx";
@@ -27,6 +28,7 @@ const manifest = {
     "./routes/auth/[provider]/callback.tsx": $6,
     "./routes/auth/[provider]/index.tsx": $7,
     "./routes/index.tsx": $8,
+    "./routes/logout.ts": $9,
   },
   islands: {
     "./islands/Counter.tsx": $$0,
