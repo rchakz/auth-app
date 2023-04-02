@@ -1,14 +1,15 @@
 import { Handlers } from "$fresh/server.ts";
 import { Providers } from "deno_grant";
 import GithubProfile from "deno_grant/interfaces/profiles/GithubProfile.ts";
+import { request_cookie_store, signed_cookie_store } from "@/deps.ts"
 
 import config from "@config";
 import denoGrant from "@denoGrant";
 import db from "@db";
 import ProviderType from "@/constants/ProviderType.ts";
 // import { Cookie, setCookie } from "std/http/cookie.ts";
-import { RequestCookieStore } from "request_cookie_store";
-import { SignedCookieStore } from "signed_cookie_store";
+// import { RequestCookieStore } from "request_cookie_store";
+// import { SignedCookieStore } from "signed_cookie_store";
 
 function getGithubAvatar(profile: GithubProfile) {
   return `https://github.com/${profile.login}.png`;
@@ -24,7 +25,7 @@ async function upsertGithubProfile(request: Request, accessToken: string) {
     .executeTakeFirst();
   let id = "";
 
-  console.log("socialProfile:", socialProfile)
+  console.log("socialProfile:", socialProfile);
 
   if (socialProfile) {
     // console.log("ATUALIZANDO social_profile EXISTENTE", profile)
@@ -34,7 +35,7 @@ async function upsertGithubProfile(request: Request, accessToken: string) {
       .set({
         username: profile.login,
         avatar_url: getGithubAvatar(profile),
-        // updated_at: new Date()
+        updated_at: new Date(),
       })
       .where("provider_id", "=", profile.id)
       .execute();
@@ -93,14 +94,14 @@ async function upsertGithubProfile(request: Request, accessToken: string) {
     status: 302,
     headers: { Location: config.base_url },
   });
-  console.log("id:", id)
+  console.log("id:", id);
   if (id) {
-    const requestStore = new RequestCookieStore(request);
+    const requestStore = new request_cookie_store.RequestCookieStore(request);
 
     const secret = "keyboard_cat";
-    const keyPromise = SignedCookieStore.deriveCryptoKey({ secret });
+    const keyPromise = signed_cookie_store.SignedCookieStore.deriveCryptoKey({ secret });
 
-    const cookieStore = new SignedCookieStore(requestStore, await keyPromise, {
+    const cookieStore = new signed_cookie_store.SignedCookieStore(requestStore, await keyPromise, {
       keyring: [await keyPromise],
     });
 
@@ -110,15 +111,15 @@ async function upsertGithubProfile(request: Request, accessToken: string) {
       path: "/",
       httpOnly: true,
       sameSite: "strict",
-      
+
       // TODO: conseguir setar os valores secure e maxAge. trocar a lib?
       // TODO: talvez combinar com setCookie
       // TODO: talvez trocar a lib?
-      
+
       // deno-lint-ignore ban-ts-comment
       // @ts-ignore
       secure: config.environment === "production",
-      maxAge: 60 * 60 * 24
+      maxAge: 60 * 60 * 24,
     });
 
     // const cookieHeader = requestStore.headers.find(([name]) => name === "cookie") || ["", ""];
@@ -128,15 +129,13 @@ async function upsertGithubProfile(request: Request, accessToken: string) {
     // console.log(cookieHeader);
 
     requestStore.headers.forEach(([key, value]) => {
-      if (key === "Set-Cookie"){
+      if (key === "Set-Cookie") {
         resp.headers.append(key, value);
       }
     });
 
     // resp.headers.append("Set-Cookie", cookieHeader[1]);
-    
-    
-   
+
     // await cookieStore.set("id", id);
     // assert(!emptyStore.headers.map(x => x[1]).includes('foo.sig=Sd_7Nz01uxBspv_y6Lqs8gLXXYEe8iFEN8fNouVNLzI'));
 
@@ -153,7 +152,7 @@ async function upsertGithubProfile(request: Request, accessToken: string) {
     // });
 
     const signedCookie = await cookieStore.get("id");
-    
+
     console.log(signedCookie);
 
     // setCookie(resp.headers, {

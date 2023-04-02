@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "@/deps.ts";
 
 import EnvNames from "@/constants/EnvVars.ts";
 

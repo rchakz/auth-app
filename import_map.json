@@ -1,24 +1,19 @@
 {
   "imports": {
     "$fresh/": "https://deno.land/x/fresh@1.1.4/",
+    "std/": "https://deno.land/std@0.181.0/",
+    "twind": "https://esm.sh/twind@0.16.19",
+    "twind/": "https://esm.sh/twind@00.16.19/",
     "preact": "https://esm.sh/preact@10.13.2",
     "preact/": "https://esm.sh/preact@10.13.2/",
     "preact-render-to-string": "https://esm.sh/*preact-render-to-string@6.0.2",
     "@preact/signals": "https://esm.sh/*@preact/signals@1.1.3",
     "@preact/signals-core": "https://esm.sh/*@preact/signals-core@1.2.3",
-    "twind": "https://esm.sh/twind@0.16.19",
-    "twind/": "https://esm.sh/twind@0.16.19/",
     "@/": "./",
     "@db": "./db/db.ts",
     "@config": "./utils/config.ts",
     "@denoGrant": "./utils/denoGrant.ts",
-    "std/": "https://deno.land/std@0.181.0/",
-    "zod": "https://deno.land/x/zod@v3.21.4/mod.ts",
-    "postgres": "https://deno.land/x/postgres@v0.17.0/mod.ts",
-    "kysely": "https://cdn.jsdelivr.net/npm/kysely/dist/esm/index.js",
     "deno_grant": "https://deno.land/x/deno_grant@v0.3.0/mod.ts",
-    "deno_grant/": "https://deno.land/x/deno_grant@v0.3.0/src/",
-    "request_cookie_store": "https://deno.land/x/request_cookie_store@v0.6.0-pre.3/index.ts",
-    "signed_cookie_store": "https://deno.land/x/signed_cookie_store@v0.3.0-pre.8/index.ts"
+    "deno_grant/": "https://deno.land/x/deno_grant@v0.3.0/src/"
   }
 }

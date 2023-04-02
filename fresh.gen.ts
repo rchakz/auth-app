@@ -4,24 +4,26 @@
 
 import config from "./deno.json" assert { type: "json" };
 import * as $0 from "./routes/[name].tsx";
-import * as $1 from "./routes/api/joke.ts";
-import * as $2 from "./routes/api/temporary-createuser.ts";
-import * as $3 from "./routes/api/users.ts";
-import * as $4 from "./routes/auth/[provider]/callback.tsx";
-import * as $5 from "./routes/auth/[provider]/index.tsx";
-import * as $6 from "./routes/index.tsx";
+import * as $1 from "./routes/_404.tsx";
+import * as $2 from "./routes/api/joke.ts";
+import * as $3 from "./routes/api/temporary-createuser.ts";
+import * as $4 from "./routes/api/users.ts";
+import * as $5 from "./routes/auth/[provider]/callback.tsx";
+import * as $6 from "./routes/auth/[provider]/index.tsx";
+import * as $7 from "./routes/index.tsx";
 import * as $$0 from "./islands/Counter.tsx";
 import * as $$1 from "./islands/Users.tsx";
 
 const manifest = {
   routes: {
     "./routes/[name].tsx": $0,
-    "./routes/api/joke.ts": $1,
-    "./routes/api/temporary-createuser.ts": $2,
-    "./routes/api/users.ts": $3,
-    "./routes/auth/[provider]/callback.tsx": $4,
-    "./routes/auth/[provider]/index.tsx": $5,
-    "./routes/index.tsx": $6,
+    "./routes/_404.tsx": $1,
+    "./routes/api/joke.ts": $2,
+    "./routes/api/temporary-createuser.ts": $3,
+    "./routes/api/users.ts": $4,
+    "./routes/auth/[provider]/callback.tsx": $5,
+    "./routes/auth/[provider]/index.tsx": $6,
+    "./routes/index.tsx": $7,
   },
   islands: {
     "./islands/Counter.tsx": $$0,

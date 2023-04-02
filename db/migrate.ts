@@ -1,16 +1,17 @@
 import { parse } from "std/flags/mod.ts";
-import { MigrationResult, Migrator } from "kysely";
+// import { MigrationResult, Migrator } from "kysely";
+import { kysely } from "@/deps.ts"
 
 import { DenoFileMigrationProvider } from "./migrate-utils.ts";
 import db from "@db";
 
-const migrator = new Migrator({
+const migrator = new kysely.Migrator({
   db,
   provider: new DenoFileMigrationProvider(),
 });
 
 function logMigrationResults(
-  results?: MigrationResult[],
+  results?: kysely.MigrationResult[],
   error?: Error,
 ) {
   results?.forEach((res) => {
@@ -24,11 +25,12 @@ function logMigrationResults(
   });
 
   if (error) {
-    console.log(`[Migrations] Failed to migrate`);
+    console.log(`[Migrations] Falhou ao executar`);
     throw new Error(error.message);
   }
 }
 
+// https://examples.deno.land/command-line-arguments
 const flags = parse(Deno.args, {
   boolean: ["up", "down"],
 });

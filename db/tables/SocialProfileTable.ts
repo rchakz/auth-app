@@ -1,14 +1,31 @@
-import { Generated } from "kysely";
-import BaseTable from "./BaseTable.ts";
-import ProviderType from "@/constants/ProviderType.ts";
+// import { Generated } from "kysely";
+// import BaseTable from "./BaseTable.ts";
 
-export default interface SocialProfileTable extends BaseTable {
-  id: Generated<number>;
-  provider_type: ProviderType;
-  provider_id: string;
-  username: string;
-  avatar_url: string;
-  user_id: number;
-}
+import { z } from "@/deps.ts";
+import ProviderType from "@/constants/ProviderType.ts";
+import { generatedNumber, timestamps } from "../zod-utils.ts";
+
+const SocialProfileTable = z.object({
+  id: generatedNumber(),
+  provider_type: z.nativeEnum(ProviderType),
+  provider_id: z.string(),
+  username: z.string(),
+  avatar_url: z.string(),
+  user_id: z.number(),
+  ...timestamps(),
+});
+
+type SocialProfileTable = z.infer<typeof SocialProfileTable>;
+
+export default SocialProfileTable;
+
+// export default interface SocialProfileTable extends BaseTable {
+//   id: Generated<number>;
+//   provider_type: ProviderType;
+//   provider_id: z.string();
+//   username: z.string();
+//   avatar_url: z.string();
+//   user_id: z.number();
+// }
 
 // export type Users = Selectable<SocialProfileTable>;
