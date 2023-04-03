@@ -1,7 +1,7 @@
 import { Handlers } from "$fresh/server.ts";
-import * as cookie from "std/http/cookie.ts"
+import * as cookie from "std/http/cookie.ts";
 
-import config from "@/utils/config.ts";
+import config from "@config";
 
 export const handler: Handlers = {
   GET(req, ctx) {

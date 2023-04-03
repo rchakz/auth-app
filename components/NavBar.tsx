@@ -5,7 +5,7 @@ import UserAvatarButton from "@/islands/UserAvatarButton.tsx";
 const NavBar: FunctionalComponent<PropsWithUser> = ({ user }) => {
   {/* TODO:  config twind com temas de cores */}
   return (
-    <nav class="bg-[#595959] border-gray-200 px2 sm:px-4 py-2.5 flex justify-between">
+    <nav class="relative bg-[#595959] border-gray-200 px2 sm:px-4 py-2.5 flex justify-between">
       <div class="container flex flex-wrap justify-between items-center mx-auto">
         <a href="/" class="flex items-center">
           <svg
