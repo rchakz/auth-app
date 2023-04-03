@@ -1,6 +1,3 @@
-// import { Generated } from "kysely";
-// import BaseTable from "./BaseTable.ts";
-
 import { z } from "@/deps.ts";
 import ProviderType from "@/constants/ProviderType.ts";
 import { generatedNumber, timestamps } from "../zod-utils.ts";
@@ -18,14 +15,3 @@ const SocialProfileTable = z.object({
 type SocialProfileTable = z.infer<typeof SocialProfileTable>;
 
 export default SocialProfileTable;
-
-// export default interface SocialProfileTable extends BaseTable {
-//   id: Generated<number>;
-//   provider_type: ProviderType;
-//   provider_id: z.string();
-//   username: z.string();
-//   avatar_url: z.string();
-//   user_id: z.number();
-// }
-
-// export type Users = Selectable<SocialProfileTable>;

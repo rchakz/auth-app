@@ -10,11 +10,5 @@ export const handler = async (
     .selectFrom("user")
     .selectAll()
     .execute();
-  // const profiles = await db
-  //   .selectFrom("social_profile")
-  //   .where("provider_type", "=", "github")
-  //   .selectAll()
-  //   .execute();
-
   return Response.json(users);
 };

@@ -1,14 +1,5 @@
 // TODO: Usar uma lib ou extrair para uma lib reutilisável
 
-// import { Client } from "postgres";
-// import {
-//   CompiledQuery,
-//   DatabaseConnection,
-//   Driver,
-//   QueryResult,
-//   TransactionSettings,
-// } from "kysely";
-
 import { kysely, postgres } from "@/deps.ts";
 
 type QueryArguments = unknown[] | Record<string, unknown>;

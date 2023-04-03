@@ -1,7 +1,5 @@
 import { parse } from "std/flags/mod.ts";
-// import { MigrationResult, Migrator } from "kysely";
 import { kysely } from "@/deps.ts";
-
 import { DenoFileMigrationProvider } from "./migrate-utils.ts";
 import db from "@db";
 

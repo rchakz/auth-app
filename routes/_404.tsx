@@ -9,7 +9,10 @@ export default function NotFoundPage({ url }: UnknownPageProps) {
   return (
     // <Layout flexCol>
     <Layout user={null}>
-      <Alert message={message || `404 não encontrado ou não implementado: ${url.pathname}`} />
+      <Alert
+        message={message ||
+          `404 não encontrado ou não implementado: ${url.pathname}`}
+      />
     </Layout>
   );
 }

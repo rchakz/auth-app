@@ -9,18 +9,16 @@ export const handler: Handlers = {
     if (ctx.state.userId) {
       return Response.redirect(`${config.base_url}/dashboard`);
     }
-    // return ctx.render(null);
     const params = new URLSearchParams(req.url.split("?")[1]);
     return ctx.render({
-      message: params.get("message")
+      message: params.get("message"),
     });
   },
 };
 
-export default function Home({ data }: { data: { message: string; } }) {
+export default function Home({ data }: { data: { message: string } }) {
   return (
     <Layout user={null}>
-      {/* {console.log(data.message)} */}
       {data.message && <Alert message={data.message} />}
       <Landing />
     </Layout>

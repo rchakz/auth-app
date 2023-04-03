@@ -36,20 +36,5 @@ export const ConfigSchema = z.object({
   }),
 });
 
-// Config.parse({ username: "Ludwig" });
-
 // extract the inferred type
 export type Config = z.infer<typeof ConfigSchema>;
-// { username: string }
-
-// export default interface Config {
-//   base_url: string;
-//   environment: string;
-//   db: MySQLOptions;
-//   oauth: {
-//     github: {
-//       client_id: string;
-//       client_secret: string;
-//     }
-//   }
-// }

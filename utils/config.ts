@@ -1,9 +1,6 @@
-// import "std/dotenv/load.ts";
 import { load } from "std/dotenv/mod.ts";
-// import Config from "../schemas/Config.ts";
 import { Config, ConfigSchema } from "@/schemas/Config.ts";
 import EnvNames from "@/constants/EnvVars.ts";
-// console.log(Deno.env)
 
 // Necessário para o deploy
 if (Deno.env.get(EnvNames.DENO_ENV) !== "production") {
@@ -33,8 +30,6 @@ const envConfig: Config = {
 
 envConfig.db_uri =
   `postgres://${envConfig.db.username}:${envConfig.db.password}@${envConfig.db.host}:${envConfig.db.port}/${envConfig.db.database}`;
-
-// console.log(envConfig.db_uri);
 
 const config = ConfigSchema.parse(envConfig);
 

@@ -16,10 +16,6 @@ import config from "@config";
 // https://fresh.deno.dev/docs/getting-started/custom-handlers
 export const handler: Handlers<UserWithSocialProfiles | null, State> = {
   async GET(req, ctx) {
-    // const resp = await ctx.render();
-    // resp.headers.set("X-Custom-Header", "Hello");
-    // console.log(req.url);
-    // console.log(ctx.state);
     if (ctx.state.userId) {
       const user = await db
         .selectFrom("user")
@@ -51,7 +47,7 @@ export default function Home(
   // TODO: usar signal
   return (
     <Layout user={data}>
-      <Dashboard user={data}/>
+      <Dashboard user={data} />
     </Layout>
   );
 }

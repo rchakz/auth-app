@@ -1,13 +1,4 @@
 import { kysely } from "@/deps.ts";
-
-// import {
-//   ColumnDefinitionBuilder,
-//   FileMigrationProvider,
-//   Kysely,
-//   Migration,
-//   sql,
-// } from "kysely";
-
 import { DbSchema } from "@db";
 import { join } from "std/path/mod.ts";
 

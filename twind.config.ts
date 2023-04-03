@@ -24,9 +24,3 @@ export default {
     },
   },
 } as Options;
-
-// /* @type {import('tailwindcss).Config} */
-// module.exports = {
-//   theme: {},
-//   plugins: []
-// }

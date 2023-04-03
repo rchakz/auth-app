@@ -1,15 +1,6 @@
 import PostgresDriver from "./PostgresDriver.ts";
 import { kysely } from "@/deps.ts";
-
-// import {
-//   Kysely,
-//   PostgresAdapter,
-//   PostgresIntrospector,
-//   PostgresQueryCompiler,
-// } from "kysely";
-
 import config from "@config";
-
 import UserTable from "./tables/UserTable.ts";
 import SocialProfileTable from "./tables/SocialProfileTable.ts";
 
@@ -38,7 +29,7 @@ class Db {
 
   static #initDb() {
     return new kysely.Kysely<DbSchema>({
-      log: ["query", "error"],
+      // log: ["query", "error"],
       dialect: {
         createAdapter() {
           return new kysely.PostgresAdapter();

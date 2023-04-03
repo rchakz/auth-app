@@ -1,4 +1,3 @@
-// import { sql } from "kysely";
 import { kysely } from "@/deps.ts";
 import { createTableWithDefaults, FreshDb } from "../migrate-utils.ts";
 import ProviderType from "@/constants/ProviderType.ts";
