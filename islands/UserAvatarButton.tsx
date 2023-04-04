@@ -11,49 +11,50 @@ function getSocialProfile(user: UserWithSocialProfiles) {
 // TODO: corrigir click no Logout (Avatar/Dropdown/Logout)
 const UserAvatarButton: FunctionComponent<PropsWithUser> = ({ user }) => {
   const [showDropdown, setShowDropdown] = useState(false);
-  const buttonRef = useRef(null);
-  useEffect(() => {
-    const blurListener = () => {
-      setShowDropdown(false);
-    };
-    const focusListener = () => {
-      setShowDropdown(true);
-    };
-    if (buttonRef.current) {
-      (buttonRef.current as HTMLDivElement).addEventListener(
-        "focusout",
-        blurListener,
-      );
-      (buttonRef.current as HTMLDivElement).addEventListener(
-        "focusin",
-        focusListener,
-      );
-    }
-    () => {
-      if (buttonRef.current) {
-        (buttonRef.current as HTMLDivElement).removeEventListener(
-          "focusout",
-          blurListener,
-        );
-        (buttonRef.current as HTMLDivElement).removeEventListener(
-          "focusin",
-          focusListener,
-        );
-      }
-    };
-  }, []);
+  // const buttonRef = useRef(null);
+  // useEffect(() => {
+  //   const blurListener = () => {
+  //     setShowDropdown(false);
+  //   };
+  //   const focusListener = () => {
+  //     setShowDropdown(true);
+  //   };
+  //   if (buttonRef.current) {
+  //     (buttonRef.current as HTMLDivElement).addEventListener(
+  //       "focusout",
+  //       blurListener,
+  //     );
+  //     (buttonRef.current as HTMLDivElement).addEventListener(
+  //       "focusin",
+  //       focusListener,
+  //     );
+  //   }
+  //   () => {
+  //     if (buttonRef.current) {
+  //       (buttonRef.current as HTMLDivElement).removeEventListener(
+  //         "focusout",
+  //         blurListener,
+  //       );
+  //       (buttonRef.current as HTMLDivElement).removeEventListener(
+  //         "focusout",
+  //         focusListener,
+  //       );
+  //     }
+  //   };
+  // }, []);
+  
   // if (!user) return null;
 
   if (!user) {
     return (
-      <div class="relative px-6">
+      <div class="relative px-6 flex flex items-center">
         <a
-          class="btn btn-info mt-2 mr-3 inline-flex items-center"
+          class="btn btn-info mr-3 flex items-center"
           href="/auth/github"
         >
           <img
             src="/github.svg"
-            class="w-6 h-6 mr-2"
+            class="w-9 h-9 mr-2"
             alt="Login com GitHub"
           />
           Login
@@ -65,18 +66,18 @@ const UserAvatarButton: FunctionComponent<PropsWithUser> = ({ user }) => {
   const socialProfile = getSocialProfile(user);
 
   return (
-    <div class="relative" ref={buttonRef} tabIndex={1}>
+    <div class="relative" tabIndex={1}>
       <button
         // ref={buttonRef}
         id="dropdownDefault"
         data-dropdown-toggle="dropdown"
         class="text-white focus:outline-none font-medium rounded-lg text-sm px-4 text-center inline-flex items-center flex justify-center gap-2"
         type="button"
-        // onClick={() => setShowDropdown((current) => !current)}
+        onClick={() => setShowDropdown((current) => !current)}
       >
         <div>{user.display_name}</div>
-        <div>
-          <div class="inline-flex overflow-hidden relative justify-center items-center w-9 h-9 bg-gray-100 rounded-full dark:bg-gray-600">
+        <div class="inline-flex">
+          <div class="inline-flex overflow-hidden relative justify-center items-center w-10 h-10 bg-gray-100 rounded-full dark:bg-gray-600">
             {socialProfile
               ? (
                 <img
@@ -93,7 +94,7 @@ const UserAvatarButton: FunctionComponent<PropsWithUser> = ({ user }) => {
           </div>
         </div>
         <svg
-          class={`ml-2 w-4 h-4 transition transition-transform ${
+          class={`w-4 h-4 transition transition-transform ${
             showDropdown ? "rotate-180" : ""
           }`}
           aria-hidden="true"
