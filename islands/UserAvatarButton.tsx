@@ -29,7 +29,7 @@ const UserAvatarButton: FunctionComponent<PropsWithUser> = ({ user }) => {
         focusListener,
       );
     }
-    (() => {
+    () => {
       if (buttonRef.current) {
         (buttonRef.current as HTMLDivElement).removeEventListener(
           "focusout",
@@ -40,7 +40,7 @@ const UserAvatarButton: FunctionComponent<PropsWithUser> = ({ user }) => {
           focusListener,
         );
       }
-    });
+    };
   }, []);
   // if (!user) return null;
 
@@ -65,12 +65,12 @@ const UserAvatarButton: FunctionComponent<PropsWithUser> = ({ user }) => {
   const socialProfile = getSocialProfile(user);
 
   return (
-    <div class="relative z-10" ref={buttonRef} tabIndex={1}>
+    <div class="relative" ref={buttonRef} tabIndex={1}>
       <button
         // ref={buttonRef}
         id="dropdownDefault"
         data-dropdown-toggle="dropdown"
-        class="text-white focus:ring-[#595959] font-medium rounded-lg text-sm px-4 py-1 text-center inline-flex items-center flex justify-center gap-2"
+        class="text-white focus:outline-none font-medium rounded-lg text-sm px-4 text-center inline-flex items-center flex justify-center gap-2"
         type="button"
         // onClick={() => setShowDropdown((current) => !current)}
       >
@@ -80,7 +80,7 @@ const UserAvatarButton: FunctionComponent<PropsWithUser> = ({ user }) => {
             {socialProfile
               ? (
                 <img
-                  class="w-8 h-8 p-1 rounded"
+                  class="w-9 h-9 p-1 rounded"
                   src={socialProfile.avatar_url}
                   alt={socialProfile.username}
                 />
@@ -115,7 +115,7 @@ const UserAvatarButton: FunctionComponent<PropsWithUser> = ({ user }) => {
         id="dropdown"
         class={`${
           showDropdown ? "" : "hidden"
-        } absolute mt-2 right-4 z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700`}
+        } absolute mt-2 right-4 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700`}
         // class="absolute mt-2 right-4 z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700"
       >
         <ul
