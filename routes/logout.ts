@@ -4,7 +4,7 @@ import * as cookie from "std/http/cookie.ts";
 import config from "@config";
 
 export const handler: Handlers = {
-  GET(req, ctx) {
+  GET(_req, _ctx) {
     // console.log("cookie: ", req.headers.get("cookie"));
     const response = new Response("", {
       status: 302,

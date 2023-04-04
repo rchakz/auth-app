@@ -48,7 +48,7 @@ const UserAvatarButton: FunctionComponent<PropsWithUser> = ({ user }) => {
     return (
       <div class="relative px-6">
         <a
-          class="btn btn-info mt-2 inline-flex items-center"
+          class="btn btn-info mt-2 mr-3 inline-flex items-center"
           href="/auth/github"
         >
           <img
@@ -80,7 +80,7 @@ const UserAvatarButton: FunctionComponent<PropsWithUser> = ({ user }) => {
             {socialProfile
               ? (
                 <img
-                  class="w-10 h-10 p-1 rounded"
+                  class="w-8 h-8 p-1 rounded"
                   src={socialProfile.avatar_url}
                   alt={socialProfile.username}
                 />
